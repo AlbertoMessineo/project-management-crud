@@ -1,0 +1,15 @@
+<form [formGroup]="projectForm" (ngSubmit)="onSubmit()">
+    <label for="title">Titolo:</label>
+    <input id="title" formControlName="title" required />
+    
+    <label for="description">Descrizione:</label>
+    <textarea id="description" formControlName="description" required></textarea>
+  
+    <label>
+      <input type="checkbox" formControlName="toDo" />
+      To-Do
+    </label>
+  
+    <button type="submit" [disabled]="projectForm.invalid">Crea Progetto</button>
+  </form>
+  
