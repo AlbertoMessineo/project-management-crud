@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { AppComponent } from '../app.component';
-import { ProjectComponent } from '../project/project.component';
+import { ProjectComponent } from '../project-list/project.component';
 
 @Component({
   selector: 'app-main',
