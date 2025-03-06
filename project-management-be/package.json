@@ -3,7 +3,12 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+<<<<<<< HEAD
     "test": "echo \"Error: no test specified\" && exit 1"
+=======
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "startBe": "node server.js"
+>>>>>>> 2cd39a75cdd8430dfe10f726513d20c34778413e
   },
   "keywords": [],
   "author": "",
