@@ -1,14 +1,17 @@
+@import '../../variables.scss';
+
 .project {
-  background: #b19cd9;
+
+  background: $black;
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   max-width: 800px;
   margin: 20px auto;
-  color: #333;
+  color: $white;
 
   div {
-    background: #fff;
+    background: $black;
     padding: 16px;
     border-radius: 5px;
     margin-bottom: 12px;
@@ -16,7 +19,7 @@
   }
 
   h2 {
-    color: #ffa500;
+    color: $red;
     margin-bottom: 8px;
     text-transform: uppercase;
   }
@@ -30,5 +33,28 @@
     height: 1px;
     background: #ddd;
     margin: 12px 0;
+  }
+  button{
+    border-radius: 4px;
+    margin: 10px;
+  }
+  button:hover{
+    cursor: pointer;
+  }
+  #delete{
+    background-color: $light-red;
+    color: $white;
+    border: none;
+    padding: 10px 20px;
+    font-size: large;
+
+  }
+
+#update{
+    background-color: $yellow;  // Definisci $giallo nelle tue variabili, ad esempio $giallo: #FFD700;
+    color: $white;
+    border: none;
+    font-size: large;
+    padding: 10px 20px;
   }
 }

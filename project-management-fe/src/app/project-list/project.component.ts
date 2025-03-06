@@ -6,10 +6,10 @@ import { Project } from '../models/project.model';
 @Component({
   selector: 'app-projects-list',
   standalone: true,
-  imports: [CommonModule], 
+  imports: [CommonModule],
   providers: [ProjectService],
   templateUrl: './project.component.html',
-  styleUrls: ['./project.component.scss'] 
+  styleUrls: ['./project.component.scss']
 })
 export class ProjectComponent implements OnInit {
   projects: Project[] = [];
@@ -23,4 +23,23 @@ export class ProjectComponent implements OnInit {
       console.error('Errore nel caricamento dei progetti:', error);
     }
   }
+  async deleteProject(id: string) {
+    try {
+      await this.projectService.deleteProject(id);
+      this.projects = this.projects.filter(project => project.id !== id);
+    } catch (error) {
+      console.error('Errore nella cancellazione del progetto:', error);
+    }
+  }
+
+  async updateProject(project: Project) {
+    const updatedProject = { ...project, toDo: !project.toDo };
+    try {
+      await this.projectService.updateProject(project.id, updatedProject);
+      this.projects = this.projects.map(p => p.id === updatedProject.id ? updatedProject : p);
+    } catch (error) {
+      console.error('Errore nell’aggiornamento del progetto:', error);
+    }
+  }
+
 }

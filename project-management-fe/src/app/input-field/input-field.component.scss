@@ -1,17 +1,20 @@
+@import '../../variables.scss';
+
 form {
   display: flex;
   flex-direction: column;
   gap: 16px;
   max-width: 400px;
-  margin: auto;
-  margin-bottom: 40px;
+  margin : auto auto 40px;
   padding: 32px;
-  background: #b19cd9;
+  background: $black;
+  color: $white;
   border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 10px rgba(190, 190, 190, 0.1);
   align-items: center;
 
   label {
+    color: $red;
     font-weight: 600;
     margin-bottom: 4px;
     align-self: flex-start;
@@ -27,7 +30,7 @@ form {
     text-align: center;
 
     &:focus {
-      border-color: #007bff;
+      border-color: $red;
       outline: none;
     }
   }
@@ -45,7 +48,7 @@ form {
 
   button {
     padding: 12px;
-    background: #FFA500;
+    background: $red;
     color: #fff;
     border: none;
     border-radius: 5px;
@@ -54,7 +57,7 @@ form {
     transition: background 0.3s ease;
 
     &:hover {
-      background: #0056b3;
+      background: $red;
     }
 
     &:disabled {

@@ -5,11 +5,9 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class ProjectService {
-<<<<<<< HEAD
-  private apiUrl = 'http://localhost:3000/projects'; 
-=======
+
   private apiUrl = 'http://localhost:3000/projects';
->>>>>>> 2cd39a75cdd8430dfe10f726513d20c34778413e
+
 
   async getProjects() {
     try {
@@ -20,8 +18,6 @@ export class ProjectService {
       throw error;
     }
   }
-<<<<<<< HEAD
-=======
 
   async updateProject(id: string, updatedData: any) {
     try {
@@ -42,5 +38,5 @@ export class ProjectService {
       throw error;
     }
   }
->>>>>>> 2cd39a75cdd8430dfe10f726513d20c34778413e
+
 }
