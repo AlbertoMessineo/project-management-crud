@@ -1,5 +1,7 @@
 import axios from 'axios';
 import { Injectable } from '@angular/core';
+import { Project } from '../models/project.model';
+
 
 @Injectable({
   providedIn: 'root'
@@ -37,6 +39,11 @@ export class ProjectService {
       console.error('Errore nell\'eliminazione del progetto', error);
       throw error;
     }
+  }
+
+  async getProjectById(id: string): Promise<Project> {
+    const response = await axios.get(`http://localhost:3000/projects/${id}`);
+    return response.data;
   }
 
 }

@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { ProjectService } from '../services/project.service';
-import { Project } from '../models/project.model';
+import { CommonModule }   from '@angular/common';
+import { ProjectService } from '../../services/project.service';
+import { Project }        from '../../models/project.model';
+import {RouterModule}        from '@angular/router';
 
 @Component({
   selector: 'app-projects-list',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule,RouterModule],
   providers: [ProjectService],
   templateUrl: './project.component.html',
   styleUrls: ['./project.component.scss']

@@ -1,4 +1,4 @@
-@import '../../variables.scss';
+@import "../../../variables";
 
 .project {
 
@@ -18,7 +18,7 @@
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   }
 
-  h2 {
+  a {
     color: $red;
     margin-bottom: 8px;
     text-transform: uppercase;
