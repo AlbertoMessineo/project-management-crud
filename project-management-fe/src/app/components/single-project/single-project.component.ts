@@ -3,12 +3,12 @@ import {Router}                           from '@angular/router';
 import {CommonModule}                     from '@angular/common';
 import {ProjectService}                   from '../../services/project.service';
 import {Project}                          from '../../models/project.model';
-import {TasksComponent}                   from '../tasks/tasks.component';
+// import {TasksComponent}                   from '../tasks/tasks.component';
 
 @Component({
   selector: 'app-single-project',
   standalone: true,
-  imports: [CommonModule, TasksComponent],
+  imports: [CommonModule,],
   templateUrl: './single-project.component.html',
   styleUrls: ['./single-project.component.scss']
 })
