@@ -1,18 +1,19 @@
-import {Component, inject, Input, OnInit} from '@angular/core';
-import {Router}                           from '@angular/router';
-import {CommonModule}                     from '@angular/common';
-import {ProjectService}                   from '../../services/project.service';
-import {Project}                          from '../../models/project.model';
-import {TasksComponent}                   from '../tasks/tasks.component';
+  import {Component, inject, Input, OnInit} from '@angular/core';
+  import {Router}                           from '@angular/router';
+  import {CommonModule}                     from '@angular/common';
+  import {ProjectService}                   from '../../services/project.service';
+  import {Project}                     from '../../models/project.model';
+  import { TaskService} from '../tasks/tasks.component';
 
-@Component({
-  selector: 'app-single-project',
-  standalone: true,
-  imports: [CommonModule],
-  templateUrl: './single-project.component.html',
-  styleUrls: ['./single-project.component.scss']
-})
-export class SingleProjectComponent implements OnInit {
+  @Component({
+    selector: 'app-single-project',
+    standalone: true,
+    imports: [CommonModule,],
+    providers: [TaskService],
+    templateUrl: './single-project.component.html',
+    styleUrls: ['./single-project.component.scss']
+  })
+  export class SingleProjectComponent implements OnInit {
   @Input({required: true}) id!: string;
   protected project: Project | null = null;
   private router = inject(Router);
