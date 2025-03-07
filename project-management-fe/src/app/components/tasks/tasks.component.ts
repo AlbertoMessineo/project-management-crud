@@ -8,17 +8,17 @@ import { Task } from '../../models/task.model';
   selector: 'app-tasks',
   standalone: true,
   template: `
-    <div *ngIf="tasks?.length">
-      <h3>Tasks:</h3>
-      <ul>
-        <li *ngFor="let task of tasks">
-          {{ task.title }}
-          <input type="checkbox" [checked]="task.completed" (change)="markAsFinished(task)">
-          <button (click)="deleteTask(task.id)">Delete Task</button>
-        </li>
-      </ul>
-    </div>
-    <p *ngIf="!tasks?.length">Nessuna task disponibile.</p>
+<!--    <div *ngIf="tasks?.length">-->
+<!--      <h3>Tasks:</h3>-->
+<!--      <ul>-->
+<!--        <li *ngFor="let task of tasks">-->
+<!--          {{ task.title }}-->
+<!--          <input type="checkbox" [checked]="task.completed" (change)="markAsFinished(task)">-->
+<!--          <button (click)="deleteTask(task.id)">Delete Task</button>-->
+<!--        </li>-->
+<!--      </ul>-->
+<!--    </div>-->
+<!--    <p *ngIf="!tasks?.length">Nessuna task disponibile.</p>-->
   `,
   imports: [NgIf, NgForOf],
   providers: [TaskService],
