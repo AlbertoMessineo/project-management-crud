@@ -22,7 +22,7 @@ export class SingleProjectComponent implements OnInit {
     this.initData().then();
   }
 
- protected async updateProject(): Promise<void> {
+  protected async updateProject(): Promise<void> {
     if (!this.project) {
       return;
     }
@@ -33,7 +33,7 @@ export class SingleProjectComponent implements OnInit {
     this.project = await this.projectService.updateProject(this.project.id, body);
   }
 
-  protected async deleteProject(): Promise<boolean> | void {
+  protected async deleteProject(): Promise<boolean| void > {
     if (!this.project) {
       return;
     }

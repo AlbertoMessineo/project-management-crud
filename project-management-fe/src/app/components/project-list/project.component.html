@@ -6,7 +6,9 @@
       </h2>
       <p>{{ project.description }}</p>
       <p>Status: {{ project.toDo ? 'To Do' : 'Completed' }}</p>
-      <button id="details" (click)="onProjectDetailClick(project.id)">Open Detail</button>
+      <button id="details"
+              (click)="onProjectDetailClick(project.id)">Open Detail
+      </button>
       <button (click)="deleteProject(project.id)"
               id="delete">🗑 Delete
       </button>

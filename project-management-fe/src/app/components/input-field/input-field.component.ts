@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormArray, ReactiveFormsModule } from '@angular/forms';
-import axios from 'axios';
-import {NgForOf} from '@angular/common';
+import {Component}                                                          from '@angular/core';
+import {FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import axios                                                                from 'axios';
+import {NgForOf}                                                            from '@angular/common';
 
 @Component({
   selector: 'app-input-field',
@@ -41,7 +41,8 @@ export class InputFieldComponent {
         console.log('Progetto creato:', response.data);
         this.projectForm.reset();
         this.tasks.clear();
-      } catch (error) {
+      }
+      catch (error) {
         console.error('Errore nella creazione del progetto:', error);
       }
     }

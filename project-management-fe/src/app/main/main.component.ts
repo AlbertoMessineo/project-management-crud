@@ -1,7 +1,6 @@
-import { Component } from '@angular/core';
-import { AppComponent }        from '../app.component';
-import { ProjectComponent }    from '../components/project-list/project.component';
-import { InputFieldComponent } from '../components/input-field/input-field.component';
+import {Component}           from '@angular/core';
+import {ProjectComponent}    from '../components/project-list/project.component';
+import {InputFieldComponent} from '../components/input-field/input-field.component';
 
 @Component({
   selector: 'app-main',
@@ -11,5 +10,4 @@ import { InputFieldComponent } from '../components/input-field/input-field.compo
   styleUrl: './main.component.scss'
 })
 export class MainComponent {
-
 }

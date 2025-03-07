@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import axios from 'axios';
+import {Injectable} from '@angular/core';
+import axios        from 'axios';
 
 interface Task {
   id?: string;

@@ -1,74 +1,76 @@
 @import "../../../variables";
 
 form {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  max-width: 400px;
-  margin : auto auto 40px;
-  padding: 32px;
-  background: $black;
-  color: $white;
-  border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(190, 190, 190, 0.1);
-  align-items: center;
+  display        : flex;
+  flex-direction : column;
+  gap            : 16px;
+  max-width      : 400px;
+  margin         : auto auto 40px;
+  padding        : 32px;
+  background     : $black;
+  color          : $white;
+  border-radius  : 8px;
+  box-shadow     : 0 4px 10px rgba(190, 190, 190, 0.1);
+  align-items    : center;
 
   label {
-    color: $red;
-    font-weight: 600;
-    margin-bottom: 4px;
-    align-self: flex-start;
+    color         : $red;
+    font-weight   : 600;
+    margin-bottom : 4px;
+    align-self    : flex-start;
   }
 
   input, textarea {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
-    transition: border 0.3s ease;
-    text-align: center;
+    width         : 100%;
+    padding       : 12px;
+    border        : 1px solid #CCC;
+    border-radius : 5px;
+    font-size     : 16px;
+    transition    : border 0.3s ease;
+    text-align    : center;
 
     &:focus {
-      border-color: $red;
-      outline: none;
+      border-color : $red;
+      outline      : none;
     }
   }
 
   textarea {
-    resize: vertical;
-    min-height: 100px;
+    resize     : vertical;
+    min-height : 100px;
   }
 
   .checkbox-container {
-    display: flex;
-    align-items: center;
-    gap: 8px;
+    display     : flex;
+    align-items : center;
+    gap         : 8px;
   }
 
   button {
-    padding: 12px;
-    background: $red;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background 0.3s ease;
+    padding       : 12px;
+    background    : $red;
+    color         : #FFF;
+    border        : none;
+    border-radius : 5px;
+    font-size     : 16px;
+    cursor        : pointer;
+    transition    : background 0.3s ease;
 
     &:hover {
-      background: $red;
+      background : $red;
     }
 
     &:disabled {
-      background: #ccc;
-      cursor: not-allowed;
+      background : #CCC;
+      cursor     : not-allowed;
     }
   }
+
   .custom-m {
-    margin: 10px;
+    margin : 10px;
   }
-  .custom-mx{
-    margin: 10px;
+
+  .custom-mx {
+    margin : 10px;
   }
 }

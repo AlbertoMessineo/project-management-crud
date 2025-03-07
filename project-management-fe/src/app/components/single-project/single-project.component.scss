@@ -1,43 +1,42 @@
 @import "../../../variables";
 
-
 .single-project {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
-  background-color: $white;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  max-width        : 800px;
+  margin           : 0 auto;
+  padding          : 20px;
+  background-color : $white;
+  border-radius    : 8px;
+  box-shadow       : 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .single-project h1 {
-  font-size: 2rem;
-  font-weight: bold;
-  margin-bottom: 10px;
-  color: #333;
+  font-size     : 2rem;
+  font-weight   : bold;
+  margin-bottom : 10px;
+  color         : #333;
 }
 
 .single-project p {
-  font-size: 1rem;
-  line-height: 1.5;
-  color: $red ;
-  margin-bottom: 15px;
+  font-size     : 1rem;
+  line-height   : 1.5;
+  color         : $red;
+  margin-bottom : 15px;
 }
 
 .single-project .status {
-  font-size: 1.2rem;
-  font-weight: 600;
+  font-size   : 1.2rem;
+  font-weight : 600;
 }
 
 .status.to-do {
-  color: $red;
+  color : $red;
 }
 
 .status.completed {
-  color: $green;
+  color : $green;
 }
 
 /* App-Tasks component */
 app-tasks {
-  margin-top: 20px;
+  margin-top : 20px;
 }
