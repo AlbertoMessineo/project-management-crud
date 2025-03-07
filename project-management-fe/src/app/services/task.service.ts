@@ -1,6 +1,12 @@
-import { Injectable } from '@angular/core';
-import axios from 'axios';
-import { Task } from '../models/task.model';
+import {Injectable} from '@angular/core';
+import axios        from 'axios';
+
+interface Task {
+  id?: string;
+  projectId: string;
+  title: string;
+  completed: boolean;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -18,12 +24,12 @@ export class TaskService {
     return response.data;
   }
 
-  async updateTask(projectId: string, task: Task): Promise<Task> {
+  async updateTask(task: Task): Promise<Task> {
     const response = await axios.put(`${this.apiUrl}/${task.id}`, task);
     return response.data;
   }
 
-  async deleteTask(projectId: string, taskId: string): Promise<void> {
-    await axios.delete(`${this.apiUrl}/${taskId}`);
+  async deleteTask(id: string): Promise<void> {
+    await axios.delete(`${this.apiUrl}/${id}`);
   }
 }
