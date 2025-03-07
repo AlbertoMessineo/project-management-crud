@@ -12,7 +12,7 @@ interface Task {
   providedIn: 'root'
 })
 export class TaskService {
-  private apiUrl = 'http://localhost:3000/tasks'; // Assicurati che l'URL corrisponda al tuo backend
+  private apiUrl = 'http://localhost:3000/tasks';
 
   async getTasks(projectId: string): Promise<Task[]> {
     const response = await axios.get(`${this.apiUrl}/${projectId}`);

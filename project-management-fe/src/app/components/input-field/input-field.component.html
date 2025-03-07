@@ -1,15 +1,23 @@
 <form [formGroup]="projectForm" (ngSubmit)="onSubmit()">
-    <label for="title">Titolo:</label>
-    <input id="title" formControlName="title" required />
-    
-    <label for="description">Descrizione:</label>
-    <textarea id="description" formControlName="description" required></textarea>
-  
-    <label>
-      <input type="checkbox" formControlName="toDo" />
-      To-Do
-    </label>
-  
-    <button type="submit" [disabled]="projectForm.invalid">Crea Progetto</button>
-  </form>
-  
+  <label for="title">Titolo:</label>
+  <input id="title" formControlName="title" required />
+
+  <label for="description">Description:</label>
+  <textarea id="description" formControlName="description" required></textarea>
+
+  <label>
+    <input type="checkbox" formControlName="toDo" />
+    To-Do
+  </label>
+
+  <div formArrayName="tasks">
+    <label>Tasks:</label>
+    <div *ngFor="let task of tasks.controls; let i = index">
+      <input [formControlName]="i" placeholder="Add a task" required />
+      <button class="custom-m" type="button" (click)="removeTask(i)">❌</button>
+    </div>
+    <button class="custom-mx" type="button" (click)="addTask()"> Add task</button>
+  </div>
+
+  <button type="submit" [disabled]="projectForm.invalid">Create Project</button>
+</form>

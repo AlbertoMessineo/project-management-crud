@@ -1,46 +1,45 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule }   from '@angular/common';
-import { ProjectService } from '../../services/project.service';
-import { Project }        from '../../models/project.model';
-import {RouterModule}        from '@angular/router';
+import {Component, inject, OnInit} from '@angular/core';
+import {CommonModule}              from '@angular/common';
+import {ProjectService}            from '../../services/project.service';
+import {Project}                   from '../../models/project.model';
+import {Router}                    from '@angular/router';
 
 @Component({
   selector: 'app-projects-list',
   standalone: true,
-  imports: [CommonModule,RouterModule],
-  providers: [ProjectService],
+  imports: [CommonModule],
   templateUrl: './project.component.html',
   styleUrls: ['./project.component.scss']
 })
 export class ProjectComponent implements OnInit {
-  projects: Project[] = [];
+  protected projects: Project[] = [];
+  private readonly router = inject(Router);
+  private readonly projectService = inject(ProjectService);
 
-  constructor(private projectService: ProjectService) {}
-
-  async ngOnInit() {
-    try {
-      this.projects = await this.projectService.getProjects();
-    } catch (error) {
-      console.error('Errore nel caricamento dei progetti:', error);
-    }
-  }
-  async deleteProject(id: string) {
-    try {
-      await this.projectService.deleteProject(id);
-      this.projects = this.projects.filter(project => project.id !== id);
-    } catch (error) {
-      console.error('Errore nella cancellazione del progetto:', error);
-    }
+  ngOnInit(): void {
+    this.initData().then();
   }
 
-  async updateProject(project: Project) {
-    const updatedProject = { ...project, toDo: !project.toDo };
-    try {
-      await this.projectService.updateProject(project.id, updatedProject);
-      this.projects = this.projects.map(p => p.id === updatedProject.id ? updatedProject : p);
-    } catch (error) {
-      console.error('Errore nell’aggiornamento del progetto:', error);
-    }
+  protected onProjectDetailClick(id: string): Promise<boolean> {
+    return this.router.navigate(['/project', id]);
   }
 
+  protected async deleteProject(id: string): Promise<void> {
+    await this.projectService.deleteProject(id);
+    await this.initData();
+  }
+
+  protected async updateProject(project: Project): Promise<void> {
+    const body = {
+      ...project,
+      toDo: !project.toDo
+    };
+    const updatedProject = await this.projectService.updateProject(project.id, body);
+    this.projects = this.projects.map(p => p.id === updatedProject.id ? updatedProject : p);
+  }
+
+  private async initData(): Promise<void> {
+    this.projects = await this.projectService.getProjects();
+  }
 }
+

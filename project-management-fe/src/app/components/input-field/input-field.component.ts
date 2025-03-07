@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormArray, ReactiveFormsModule } from '@angular/forms';
 import axios from 'axios';
+import {NgForOf} from '@angular/common';
 
 @Component({
   selector: 'app-input-field',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, NgForOf],
   templateUrl: './input-field.component.html',
   styleUrl: './input-field.component.scss'
 })
@@ -17,7 +18,20 @@ export class InputFieldComponent {
       title: ['', Validators.required],
       description: ['', Validators.required],
       toDo: [true],
+      tasks: this.fb.array([])
     });
+  }
+
+  get tasks(): FormArray {
+    return this.projectForm.get('tasks') as FormArray;
+  }
+
+  addTask() {
+    this.tasks.push(this.fb.control('', Validators.required));
+  }
+
+  removeTask(index: number) {
+    this.tasks.removeAt(index);
   }
 
   async onSubmit() {
@@ -26,6 +40,7 @@ export class InputFieldComponent {
         const response = await axios.post('http://localhost:3000/projects', this.projectForm.value);
         console.log('Progetto creato:', response.data);
         this.projectForm.reset();
+        this.tasks.clear();
       } catch (error) {
         console.error('Errore nella creazione del progetto:', error);
       }

@@ -1,49 +1,32 @@
-import axios from 'axios';
-import { Injectable } from '@angular/core';
-import { Project } from '../models/project.model';
-
+import {inject, Injectable} from '@angular/core';
+import {Project}            from '../models/project.model';
+import {HttpClient}         from '@angular/common/http';
+import {firstValueFrom}     from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProjectService {
-
   private apiUrl = 'http://localhost:3000/projects';
-
+  private readonly httpClient = inject(HttpClient);
 
   async getProjects() {
-    try {
-      const response = await axios.get(this.apiUrl);
-      return response.data;
-    } catch (error) {
-      console.error('Errore nel recupero dei progetti', error);
-      throw error;
-    }
+    const get$ = this.httpClient.get<Project[]>(this.apiUrl);
+    return await firstValueFrom(get$);
   }
 
   async updateProject(id: string, updatedData: any) {
-    try {
-      const response = await axios.put(`${this.apiUrl}/${id}`, updatedData);
-      return response.data;
-    } catch (error) {
-      console.error('Errore nell\'aggiornamento del progetto', error);
-      throw error;
-    }
+    const put$ = this.httpClient.put<Project>(`${this.apiUrl}/${id}`, updatedData);
+    return await firstValueFrom(put$);
   }
 
   async deleteProject(id: string) {
-    try {
-      const response = await axios.delete(`${this.apiUrl}/${id}`);
-      return response.data;
-    } catch (error) {
-      console.error('Errore nell\'eliminazione del progetto', error);
-      throw error;
-    }
+    const delete$ = this.httpClient.delete<Project>(`${this.apiUrl}/${id}`);
+    return await firstValueFrom(delete$);
   }
 
   async getProjectById(id: string): Promise<Project> {
-    const response = await axios.get(`http://localhost:3000/projects/${id}`);
-    return response.data;
+    const get$ = this.httpClient.get<Project>(`${this.apiUrl}/${id}`);
+    return await firstValueFrom(get$);
   }
-
 }

@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { db } = require('../firebase'); 
+const { db } = require('../firebase');
 
 // Api per ottenere i progetti
 router.get('/', async (req, res) => {
@@ -12,11 +12,27 @@ router.get('/', async (req, res) => {
     res.status(500).send(error.message);
   }
 });
+
+router.get('/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const projectRef = db.collection('projects').doc(id);
+    const doc = await projectRef.get();
+
+    if (!doc.exists) {
+      return res.status(404).json({ message: 'Progetto non trovato' });
+    }
+    res.json({ id: doc.id, ...doc.data()});
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+});
+
 // Api per postare i progetti
 router.post('/', async (req, res) => {
   try {
-    const { title, description, toDo } = req.body;
-    const newProject = { title, description, toDo };
+    const { title, description, toDo, tasks } = req.body;
+    const newProject = { title, description, toDo, tasks };
     const docRef = await db.collection('projects').add(newProject);
     res.status(201).json({ id: docRef.id, ...newProject });
   } catch (error) {
@@ -28,7 +44,7 @@ router.post('/', async (req, res) => {
 router.put('/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const { title, description, toDo } = req.body;
+    const { title, description, toDo, tasks } = req.body;
 
     const projectRef = db.collection('projects').doc(id);
     const doc = await projectRef.get();
@@ -37,8 +53,8 @@ router.put('/:id', async (req, res) => {
       return res.status(404).json({ message: 'Progetto non trovato' });
     }
 
-    await projectRef.update({ title, description, toDo });
-    res.json({ id, title, description, toDo });
+    await projectRef.update({ title, description, toDo, tasks });
+    res.json({ id, title, description, toDo, tasks });
   } catch (error) {
     res.status(500).json({ message: 'Errore nell\'aggiornamento del progetto', error });
   }

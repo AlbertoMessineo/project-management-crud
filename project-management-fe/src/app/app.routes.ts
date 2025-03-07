@@ -1,9 +1,20 @@
-import { Routes } from '@angular/router';
-import {ProjectComponent} from './components/project-list/project.component';
+import {Routes}                 from '@angular/router';
 import {SingleProjectComponent} from './components/single-project/single-project.component';
-
+import {MainComponent}          from './main/main.component';
 
 export const routes: Routes = [
-  { path: '', component: ProjectComponent},
-  { path: 'project/:id', component: SingleProjectComponent },
-];
+    {
+      path: 'home',
+      component: MainComponent
+    },
+    {
+      path: 'project/:id',
+      component: SingleProjectComponent
+    },
+    {
+      path: '',
+      redirectTo: 'home',
+      pathMatch: 'full'
+    }
+  ]
+;

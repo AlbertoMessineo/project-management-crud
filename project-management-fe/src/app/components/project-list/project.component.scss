@@ -18,7 +18,7 @@
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   }
 
-  a {
+  span {
     color: $red;
     margin-bottom: 8px;
     text-transform: uppercase;
@@ -51,10 +51,18 @@
   }
 
 #update{
-    background-color: $yellow;  // Definisci $giallo nelle tue variabili, ad esempio $giallo: #FFD700;
+    background-color: $yellow;
     color: $white;
     border: none;
     font-size: large;
     padding: 10px 20px;
   }
+  #details{
+    background-color: $green;
+    color: $white;
+    border: none;
+    font-size: large;
+    padding: 10px 20px;
+  }
+
 }
