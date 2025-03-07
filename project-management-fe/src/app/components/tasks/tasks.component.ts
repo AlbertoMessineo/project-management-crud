@@ -1,45 +1,30 @@
-import {Component, Input} from '@angular/core';
-import {NgForOf, NgIf} from '@angular/common';
-import {TaskService} from '../../services/task.service';
+import { Injectable } from '@angular/core';
+import axios from 'axios';
+import { Task } from '../../models/task.model';
 
-@Component({
-  selector: 'app-tasks',
-  standalone: true,
-  template: `
-    <div *ngIf="tasks?.length">
-      <h3>Tasks:</h3>
-      <ul>
-        <li *ngFor="let task of tasks">
-          {{ task }}
-          <button (click)="markAsFinished(task)">Mark as finished</button>
-          <button (click)="deleteTask(task.id)">Delete Task</button>
-        </li>
-      </ul>
-    </div>
-    <p *ngIf="!tasks?.length">Nessuna task disponibile.</p>
-  `,
-  imports: [
-    NgIf,
-    NgForOf
-  ],
-  providers: [TaskService],
-  styleUrls: ['./tasks.component.scss']
+@Injectable({
+  providedIn: 'root'
 })
 export class TasksComponent {
-  @Input() tasks: any[] = [];
+  private apiUrl = 'http://localhost:3000/tasks';
 
-  constructor(private taskService: TaskService) {}
-
-  markAsFinished(task: any) {
-    task.completed = true;
-    this.taskService.updateTask(task).then(updatedTask => {
-      this.tasks = this.tasks.map(t => t.id === updatedTask.id ? updatedTask : t);
-    });
+  async getTasks(projectId: string): Promise<Task[]> {
+    const response = await axios.get(`${this.apiUrl}/${projectId}`);
+    return response.data;
   }
 
-  deleteTask(id: string) {
-    this.taskService.deleteTask(id).then(() => {
-      this.tasks = this.tasks.filter(task => task.id !== id);
-    });
+  async createTask(task: Task): Promise<Task> {
+    const response = await axios.post(this.apiUrl, task);
+    return response.data;
+  }
+
+  async updateTask(projectId: string, task: Task): Promise<Task> {
+    const response = await axios.put(`${this.apiUrl}/${task.id}`, task);
+    return response.data;
+  }
+
+  async deleteTask(projectId: string, taskId: string): Promise<void> {
+    await axios.delete(`${this.apiUrl}/${taskId}`);
   }
 }
+

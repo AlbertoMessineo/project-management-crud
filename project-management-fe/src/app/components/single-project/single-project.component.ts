@@ -8,7 +8,7 @@ import {TasksComponent}                   from '../tasks/tasks.component';
 @Component({
   selector: 'app-single-project',
   standalone: true,
-  imports: [CommonModule, TasksComponent],
+  imports: [CommonModule],
   templateUrl: './single-project.component.html',
   styleUrls: ['./single-project.component.scss']
 })

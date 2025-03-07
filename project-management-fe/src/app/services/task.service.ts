@@ -1,35 +1,32 @@
-import {Injectable} from '@angular/core';
-import axios        from 'axios';
+import { Injectable } from '@angular/core';
+import axios from 'axios';
+import { Task } from '../models/task.model';
 
-interface Task {
-  id?: string;
-  projectId: string;
-  title: string;
-  completed: boolean;
-}
 
 @Injectable({
   providedIn: 'root'
 })
 export class TaskService {
-  private apiUrl = 'http://localhost:3000/tasks';
+  private apiUrl = 'http://localhost:3000/projects'; // 🔥 Cambiato a /projects
 
   async getTasks(projectId: string): Promise<Task[]> {
-    const response = await axios.get(`${this.apiUrl}/${projectId}`);
+    const response = await axios.get(`${this.apiUrl}/${projectId}/tasks`);
     return response.data;
   }
 
-  async createTask(task: Task): Promise<Task> {
-    const response = await axios.post(this.apiUrl, task);
+  async createTask(projectId: string, task: Task): Promise<Task> {
+    const response = await axios.post(`${this.apiUrl}/${projectId}/tasks`, task);
     return response.data;
   }
 
-  async updateTask(task: Task): Promise<Task> {
-    const response = await axios.put(`${this.apiUrl}/${task.id}`, task);
+  async updateTask(projectId: string, task: Task): Promise<Task> {
+    if (!task.id) throw new Error('Task ID is required for update');
+    const response = await axios.put(`${this.apiUrl}/${projectId}/tasks/${task.id}`, task);
     return response.data;
   }
 
-  async deleteTask(id: string): Promise<void> {
-    await axios.delete(`${this.apiUrl}/${id}`);
+  async deleteTask(projectId: string, taskId: string): Promise<void> {
+    if (!taskId) throw new Error('Task ID is required for delete');
+    await axios.delete(`${this.apiUrl}/${projectId}/tasks/${taskId}`);
   }
 }
