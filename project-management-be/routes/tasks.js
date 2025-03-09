@@ -1,112 +1,126 @@
 const express = require('express');
 const router = express.Router();
 const admin = require('firebase-admin');
-
 const db = admin.firestore();
-
-// API per ottenere i task di un progetto
-router.get('/:projectId', async (req, res) => {
+//  Ottenere le task di un progetto
+router.get('/:projectId/tasks', async (req, res) => {
   try {
-    const { projectId } = req.params;
-
-    // Recupera il documento del progetto
-    const projectRef = db.collection('projects').doc(projectId);
+    const {projectId} = req.params;
+    const projectRef = db.collection('projects')
+                         .doc(projectId);
     const projectDoc = await projectRef.get();
-
-    // Se il progetto non esiste
     if (!projectDoc.exists) {
-      return res.status(404).json({ error: 'Progetto non trovato' });
+      return res.status(404)
+                .json({message: 'Progetto non trovato'});
     }
-
-    // Ottieni le tasks dal progetto
     const projectData = projectDoc.data();
-    const tasks = projectData.tasks || []; // Se non ci sono task, restituisce un array vuoto
-
-    res.json(tasks);
-  } catch (error) {
-    console.error('Errore nel recupero delle tasks:', error);
-    res.status(500).send(error.message);
+    res.json(projectData.tasks || []);
+  }
+  catch (error) {
+    res.status(500)
+       .send(error.message);
   }
 });
-
+// Creare una nuova task
 router.post('/:projectId/tasks', async (req, res) => {
   try {
-    const { projectId } = req.params;
-    const { title } = req.body; // Per esempio, invii solo il titolo
-    const newTask = {
-      id: `${Date.now()}`,  // Genera un ID unico (puoi usare anche un UUID)
-      title,
-      completed: false
-    };
-
-    // Recupera il progetto
-    const projectRef = db.collection('projects').doc(projectId);
+    const {projectId} = req.params;
+    const {
+            title,
+            completed
+          } = req.body;
+    const projectRef = db.collection('projects')
+                         .doc(projectId);
     const projectDoc = await projectRef.get();
     if (!projectDoc.exists) {
-      return res.status(404).json({ message: 'Progetto non trovato' });
+      return res.status(404)
+                .json({message: 'Progetto non trovato'});
     }
     const projectData = projectDoc.data();
-    const tasks = projectData.tasks || [];
-    tasks.push(newTask);
+    const newTaskId = `${projectId}-${projectData.tasks?.length || 0}-${Date.now()}`;
 
-    // Aggiorna il documento del progetto
-    await projectRef.update({ tasks });
-    res.status(201).json(newTask);
-  } catch (error) {
-    res.status(500).send(error.message);
+    const newTask = {
+      id: newTaskId,
+      title,
+      completed
+    };
+    // Aggiunge la nuova task all'array
+    await projectRef.update({
+                              tasks: [...(projectData.tasks || []), newTask]
+                            });
+    res.json(newTask);
+  }
+  catch (error) {
+    res.status(500)
+       .send(error.message);
   }
 });
-
+//  Aggiornare una task
 router.put('/:projectId/tasks/:taskId', async (req, res) => {
   try {
-    const { projectId, taskId } = req.params;
-    const { title, completed } = req.body;
-
-    // Recupera il progetto
-    const projectRef = db.collection('projects').doc(projectId);
+    const {
+            projectId,
+            taskId
+          } = req.params;
+    const {
+            title,
+            completed
+          } = req.body;
+    const projectRef = db.collection('projects')
+                         .doc(projectId);
     const projectDoc = await projectRef.get();
     if (!projectDoc.exists) {
-      return res.status(404).json({ message: 'Progetto non trovato' });
+      return res.status(404)
+                .json({message: 'Progetto non trovato'});
     }
-    const projectData = projectDoc.data();
+    let projectData = projectDoc.data();
     let tasks = projectData.tasks || [];
-
-
-    tasks = tasks.map(task => {
-      if (task.id === taskId) {
-        return { ...task, title, completed };
-      }
-      return task;
-    });
-
-    // Aggiorna il documento
-    await projectRef.update({ tasks });
-    res.json({ id: taskId, title, completed });
-  } catch (error) {
-    res.status(500).send(error.message);
+    let taskIndex = tasks.findIndex(task => task.id === taskId);
+    if (taskIndex === -1) {
+      return res.status(404)
+                .json({message: 'Task non trovata'});
+    }
+    tasks[taskIndex] =
+      {
+        ...tasks[taskIndex],
+        title,
+        completed
+      };
+    await projectRef.update({tasks});
+    res.json(tasks[taskIndex]);
+  }
+  catch (error) {
+    res.status(500)
+       .send(error.message);
   }
 });
+// Eliminare una task
 router.delete('/:projectId/tasks/:taskId', async (req, res) => {
   try {
-    const { projectId, taskId } = req.params;
-
-    // Recupera il progetto
-    const projectRef = db.collection('projects').doc(projectId);
+    const {
+            projectId,
+            taskId
+          } = req.params;
+    const projectRef = db.collection('projects')
+                         .doc(projectId);
     const projectDoc = await projectRef.get();
     if (!projectDoc.exists) {
-      return res.status(404).json({ message: 'Progetto non trovato' });
+      return res.status(404)
+                .json({message: 'Progetto non trovato'});
     }
-    const projectData = projectDoc.data();
+    let projectData = projectDoc.data();
     let tasks = projectData.tasks || [];
-
-
-    tasks = tasks.filter(task => task.id !== taskId);
-
-    await projectRef.update({ tasks });
-    res.json({ message: 'Task eliminata con successo' });
-  } catch (error) {
-    res.status(500).send(error.message);
+    let filteredTasks = tasks.filter(task => task.id !== taskId);
+    if (tasks.length === filteredTasks.length) {
+      return res.status(404)
+                .json({message: 'Task non trovata'});
+    }
+    await projectRef.update({tasks: filteredTasks});
+    res.json({message: 'Task eliminata'});
+  }
+  catch (error) {
+    res.status(500)
+       .send(error.message);
   }
 });
-
 module.exports = router;
