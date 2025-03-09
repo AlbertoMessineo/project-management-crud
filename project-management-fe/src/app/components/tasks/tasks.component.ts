@@ -1,45 +1,44 @@
-import {Component, Input} from '@angular/core';
-import {NgForOf, NgIf} from '@angular/common';
-import {TaskService} from '../../services/task.service';
+import { Component, Input, OnInit } from '@angular/core';
+import { TaskService } from '../../services/task.service'
+import {CommonModule}               from '@angular/common';
+import {FormsModule}                from '@angular/forms';
 
 @Component({
   selector: 'app-tasks',
+  templateUrl: './tasks.component.html',
+  styleUrls: ['./tasks.component.scss'],
+  imports: [CommonModule, FormsModule],
   standalone: true,
-  template: `
-    <div *ngIf="tasks?.length">
-      <h3>Tasks:</h3>
-      <ul>
-        <li *ngFor="let task of tasks">
-          {{ task }}
-          <button (click)="markAsFinished(task)">Mark as finished</button>
-          <button (click)="deleteTask(task.id)">Delete Task</button>
-        </li>
-      </ul>
-    </div>
-    <p *ngIf="!tasks?.length">Nessuna task disponibile.</p>
-  `,
-  imports: [
-    NgIf,
-    NgForOf
-  ],
-  providers: [TaskService],
-  styleUrls: ['./tasks.component.scss']
 })
-export class TasksComponent {
-  @Input() tasks: any[] = [];
+export class TasksComponent implements OnInit {
+  @Input() projectId!: string;
+  tasks: any[] = [];
 
   constructor(private taskService: TaskService) {}
 
-  markAsFinished(task: any) {
-    task.completed = true;
-    this.taskService.updateTask(task).then(updatedTask => {
-      this.tasks = this.tasks.map(t => t.id === updatedTask.id ? updatedTask : t);
-    });
+  async ngOnInit() {
+    await this.loadTasks();
   }
 
-  deleteTask(id: string) {
-    this.taskService.deleteTask(id).then(() => {
-      this.tasks = this.tasks.filter(task => task.id !== id);
-    });
+  async loadTasks() {
+    if (!this.projectId) return;
+    this.tasks = await this.taskService.getTasks(this.projectId);
+  }
+
+  async addTask(title: string) {
+    if (!this.projectId || !title.trim()) return;
+    const newTask = await this.taskService.addTask(this.projectId, title);
+    this.tasks.push(newTask);
+  }
+
+  async updateTask(task: any) {
+    if (!this.projectId || !task.id) return;
+    await this.taskService.updateTask(this.projectId, task.id, task.title, task.completed);
+  }
+
+  async deleteTask(taskId: string) {
+    if (!this.projectId || !taskId) return;
+    await this.taskService.deleteTask(this.projectId, taskId);
+    this.tasks = this.tasks.filter(task => task.id !== taskId);
   }
 }

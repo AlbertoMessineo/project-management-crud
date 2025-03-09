@@ -2,7 +2,7 @@
   <div class="single-project">
     <h1>{{ project.title }}</h1>
     <p>{{ project.description }}</p>
-    <app-tasks [tasks]="project.tasks"></app-tasks>
+    <app-tasks [projectId]="project.id"></app-tasks>
     <p>Status: {{ project.toDo ? 'To Do' : 'Completed' }}</p>
   </div>
 }

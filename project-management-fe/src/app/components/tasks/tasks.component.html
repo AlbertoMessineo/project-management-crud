@@ -1,11 +1,12 @@
-<div *ngIf="tasks.length > 0"
-     class="tasks">
-  <h3>Tasks</h3>
-  <ul>
-    <li *ngFor="let task of tasks">{{ task }}
-      <button>Mark as finished</button>
-      <button>Delete Task</button>
-    </li>
-  </ul>
-</div>
+<div *ngIf="tasks.length === 0">Nessuna task trovata.</div>
 
+<ul>
+  <li *ngFor="let task of tasks">
+    <input type="checkbox" [(ngModel)]="task.completed" (change)="updateTask(task)" />
+    {{ task.title }}
+    <button (click)="deleteTask(task.id)"></button>
+  </li>
+</ul>
+
+<input #taskInput type="text" placeholder="Nuova task" />
+<button (click)="addTask(taskInput.value); taskInput.value = ''">Aggiungi</button>

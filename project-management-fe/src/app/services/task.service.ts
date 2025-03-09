@@ -1,35 +1,41 @@
-import {Injectable} from '@angular/core';
-import axios        from 'axios';
-
-interface Task {
-  id?: string;
-  projectId: string;
-  title: string;
-  completed: boolean;
-}
+import { Injectable } from '@angular/core';
+import axios from 'axios';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TaskService {
-  private apiUrl = 'http://localhost:3000/tasks';
+  private baseUrl = 'http://localhost:3000/projects'; // Cambiato per riflettere la nuova struttura
 
-  async getTasks(projectId: string): Promise<Task[]> {
-    const response = await axios.get(`${this.apiUrl}/${projectId}`);
+  constructor() {}
+
+  // Ottenere tutte le task di un progetto
+  async getTasks(projectId: string) {
+    const response = await axios.get(`${this.baseUrl}/${projectId}/tasks`);
     return response.data;
   }
 
-  async createTask(task: Task): Promise<Task> {
-    const response = await axios.post(this.apiUrl, task);
+  // Creare una nuova task in un progetto
+  async addTask(projectId: string, title: string) {
+    const response = await axios.post(`${this.baseUrl}/${projectId}/tasks`, {
+      title,
+      completed: false
+    });
     return response.data;
   }
 
-  async updateTask(task: Task): Promise<Task> {
-    const response = await axios.put(`${this.apiUrl}/${task.id}`, task);
+  // Aggiornare una task
+  async updateTask(projectId: string, taskId: string, title: string, completed: boolean) {
+    const response = await axios.put(`${this.baseUrl}/${projectId}/tasks/${taskId}`, {
+      title,
+      completed
+    });
     return response.data;
   }
 
-  async deleteTask(id: string): Promise<void> {
-    await axios.delete(`${this.apiUrl}/${id}`);
+  // Eliminare una task
+  async deleteTask(projectId: string, taskId: string) {
+    const response = await axios.delete(`${this.baseUrl}/${projectId}/tasks/${taskId}`);
+    return response.data;
   }
 }
